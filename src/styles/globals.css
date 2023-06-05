@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .dark {
+  background-color: #0b101b;
+} */
+
+.bg_image {
+  background: url("../assets/images/bg-image.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
