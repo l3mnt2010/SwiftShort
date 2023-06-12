@@ -41,7 +41,7 @@ class AuthLogin {
     }
   }
   async logout(): Promise<void> {
-    localStorage.removeItem("token");
+    localStorage.removeItem("access_token");
   }
 }
 const authlogin = new AuthLogin();

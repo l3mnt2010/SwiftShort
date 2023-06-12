@@ -55,6 +55,7 @@ const registerSlice = createSlice({
     builder.addCase(Register_User.rejected, (state, action) => {
       state.isLoading = false;
       state.error = action.payload as string;
+      state.response = null;
     });
   },
 });

@@ -13,7 +13,7 @@ const PrApp: React.FC<Items> = (props) => {
       <div>
         <Image src={image} alt={title} />
       </div>
-      <div className={`font-bold text-xl ${color}`}>{title}</div>
+      <div className={`font-sans text-xl ${color}`}>{title}</div>
     </div>
   );
 };

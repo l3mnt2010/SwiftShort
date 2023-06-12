@@ -4,11 +4,11 @@ import TeamMember from "../components/TeamMember";
 
 const OurTeam = () => {
   return (
-    <div className="w-full mt-40 mb-10 px-10">
-      <h1 className="uppercase w-full text-center font-bold text-3xl text-pink-400 mb-3">
-        Our reative team
+    <div className="w-full my-10 mx-auto sm:mt-40 sm:mb-32 text-white">
+      <h1 className="font-thin w-full text-center sm:font-bold text-3xl text-pink-400 mb-3">
+        Our relative team
       </h1>
-      <p className="w-full text-center">
+      <p className="w-full text-center text-xl font-sans my-5">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Viverra nunc
         ante velit vitae.
       </p>

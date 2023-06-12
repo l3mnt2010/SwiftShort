@@ -11,22 +11,22 @@ const Help = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
   return (
-    <div className="w-5/6 mx-auto flex flex-col py-20 gap-10 text-black bg-gradient-to-b from-white to-pink-300">
-      <div className="h-1/2 mx-auto text-center text-6xl">
+    <div className="w-5/6 mx-auto flex flex-col font-sans py-20 gap-10 text-white">
+      <div className="h-1/2 mx-auto text-center text-3xl sm:text-6xl">
         How to use our app
       </div>
       <div className="w-5/6 mx-auto font-thin">
-        <h1 className="font-bold text-2xl">
+        <h1 className="font-bold sm:text-2xl">
           Our online short link generator is absolutely free.
         </h1>
-        <p className="font-thin text-xl">
+        <p className="font-thin sm:text-xl">
           You can use this amazing tool for free. Surl.li generator — is the
           service created by HyperHost.ua. The main activity of the company is
           still providing high–quality premium hosting services and powerful VPS
           and everything else that needed for all internet projects.
         </p>
       </div>
-      <div className="w-5/6 mx-auto font-thin text-xl">
+      <div className="w-5/6 mx-auto font-thi: sm;text-xl">
         <h1 className="text-2xl font-bold">
           Surl.li is the best replacement for goo.gl
         </h1>
@@ -44,9 +44,11 @@ const Help = () => {
           short link service
         </p>
       </div>
-      <div className="w-5/6 mx-auto flex font-thin text-xl">
+      <div className="w-5/6 mx-auto sm:flex font-thin sm:text-xl">
         <div>
-          <h1 className="font-bold text-2xl">How does URL shortener work?</h1>
+          <h1 className="font-bold text-2xl my-4">
+            How does URL shortener work?
+          </h1>
           <p>
             All you need to do is to enter your long URL and get its short
             version. The short URL is constantly connected with the main one. It
@@ -56,7 +58,7 @@ const Help = () => {
           </p>
         </div>
         <div>
-          <h1 className="font-bold text-2xl">
+          <h1 className="font-bold text-2xl my-4">
             Why is it necessary to short URLs?
           </h1>
           <p>
@@ -83,7 +85,7 @@ const Help = () => {
           symbols. Keep it in mind.
         </p>
       </div>
-      <div className="w-5/6">
+      <div className="w-full sm:w-5/6">
         <FrequentQuestion />
       </div>
     </div>

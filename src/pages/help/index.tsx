@@ -1,18 +1,33 @@
+import React, { useEffect, useState } from "react";
 import Menu from "@/components/Menu";
-import React from "react";
+import Products from "../../components/products";
 import Help from "./helpyou";
 import AppFooter from "@/components/Footer";
-import OurTeam from "@/components/OurTeam";
 
-const helpyou = () => {
+const HelpYou = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  console.log(scrollY);
+
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <Menu />
       <Help />
-      <OurTeam />
       <AppFooter />
     </div>
   );
 };
 
-export default helpyou;
+export default HelpYou;

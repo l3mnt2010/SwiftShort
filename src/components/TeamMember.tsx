@@ -15,7 +15,7 @@ export interface Team {
 }
 const TeamMember: React.FC<Team> = (props) => {
   return (
-    <div className="w-full rounded-lg shadow-2xl mt-5">
+    <div className="w-full rounded-lg shadow-2xl text-white mt-5 bg-cyan-500 bg-opacity-5">
       <Image
         className="w-1/3 mx-auto"
         src={props.avatar}

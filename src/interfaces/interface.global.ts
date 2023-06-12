@@ -58,3 +58,24 @@ export interface UserAlreadyExist {
   statusCode: number;
   message: string;
 }
+
+export interface GetLink {
+  id: number;
+  originalLinks: string;
+  shorterLinks: string;
+  createAt: string;
+  clickCount: number;
+  Address: string | null;
+}
+
+export interface AllLink {
+  data_link: GetLink[] | null;
+}
+
+export interface OneLink {
+  data_link: GetLink | null;
+}
+
+export interface ShortLink {
+  originalLinks: string;
+}

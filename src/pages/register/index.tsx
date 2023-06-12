@@ -1,7 +1,5 @@
-import React, { ChangeEvent, useCallback, useState } from "react";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import logo from "../../assets/images/LogoSwiftShort.png";
-import bg1 from "../../assets/images/image-bg1.png";
-import bg2 from "../../assets/images/image-bg2.png";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/router";
@@ -11,12 +9,17 @@ import {
   EyeOutlined,
   GoogleOutlined,
 } from "@ant-design/icons";
-import Image from "next/image";
+import { ToastContainer } from "react-toastify";
 import { Register } from "@/interfaces/interface.global";
-import { useAppDispatch } from "@/redux/store";
+import { RootState, useAppDispatch } from "@/redux/store";
 import { Register_User } from "@/redux/register.slice";
+import { useSelector } from "react-redux";
+import { Toastcontainer } from "@/toastify/toastify";
+import { Spin } from "antd";
 
-const login = () => {
+const register = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const response = useSelector((state: RootState) => state.register);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const dispatch = useAppDispatch();
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -25,27 +28,40 @@ const login = () => {
   const [showpass, setShowPass] = useState(false);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { register, handleSubmit, setValue } = useForm<Register>({});
-  const onSubmit: SubmitHandler<Register> = (data) => {
+  const onSubmit: SubmitHandler<Register> = async (data) => {
     console.log(data);
-    dispatch(Register_User({ ...data, roles: "user" }));
+    await dispatch(Register_User({ ...data, roles: "user" }));
   };
-
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // useEffect(() => {
+  //   if (response != null) {
+  //     Toastcontainer("success", "đăng ký !!!!");
+  //     router.push("/login");
+  //   }
+  // }, [onSubmit, response.response]);
   return (
-    <div className="w-screen h-screen fixed">
-      <div className="w-full sm:w-1/2 mx-auto mt-40 sm:mt-20">
-        <h1 className="w-full font-bold text-center text-black text-4xl">
+    <div className="w-screen bg_eye sm:bg-none pt-32 sm:pt-0 sm:flex h-screen sm:fixed text-white">
+      <div className="sm:w-1/2 sm:h-screen sm:bg_image">
+        <div className="sm:h-full bg_eye sm:text-center flex justify-center items-center text-2xl sm:text-5xl text-white font-serif">
+          COME ON
+        </div>
+      </div>
+      <div className="w-full sm:w-1/2 mx-auto sm:mt-20 ">
+        <h1 className="w-full font-bold text-center text-white sm:text-3xl">
           Sign up and start shortening
         </h1>
         <div className="w-full flex gap-5 justify-center items-center">
           {" "}
-          <p className="font-bold text-center my-5">Already have an account?</p>
+          <p className="font-bold text-center text-white my-5">
+            Already have an account?
+          </p>
           <Link className="text-blue-600 underline w-20" href={"/login"}>
             Login
           </Link>
         </div>
 
         <div className="w-full">
-          <h1 className="w-full text-center font-thin">Sing up with:</h1>
+          <h1 className="w-full text-center font-thin">Sign up with:</h1>
           <div className="flex gap-5 justify-center items-center my-3">
             <button className="bg-blue-600 hover:bg-pink-400 transition-all rounded-xl w-32 flex justify-center items-center h-8">
               <GoogleOutlined className="hover:animate-spin" />
@@ -62,10 +78,10 @@ const login = () => {
         <form className="flex flex-col gap-5">
           <div className="flex flex-col gap-5">
             {" "}
-            <label className="w-5/6 mx-auto font-bold">Username</label>
+            <label className="w-4/6 mx-auto font-bold">Username</label>
             <input
               type="text"
-              className="w-5/6 mx-auto h-9 rounded-xl border-2 bg-gray-200 pl-5"
+              className="w-4/6 mx-auto h-14 rounded-xl border-2 bg-opacity-0 bg-gray-200 pl-5"
               placeholder="user name"
               {...register("name", {})}
             />
@@ -73,17 +89,17 @@ const login = () => {
           </div>
           <div className="flex flex-col gap-5">
             {" "}
-            <label className="w-5/6 mx-auto font-bold">Email address</label>
+            <label className="w-4/6 mx-auto font-bold">Email address</label>
             <input
               type="text"
-              className="w-5/6 mx-auto h-9 rounded-xl border-2 bg-gray-200 pl-5"
+              className="w-4/6 mx-auto h-14 rounded-xl border-2 bg-opacity-0 bg-gray-200 pl-5"
               placeholder="name@gmail.com"
               {...register("email", {})}
             />
             {}
           </div>
           <div className="flex flex-col gap-5">
-            <div className="w-5/6 mx-auto flex justify-between">
+            <div className="w-4/6 mx-auto flex justify-between">
               <label className="font-bold">Password</label>
               <div
                 onClick={() => setShowPass(!showpass)}
@@ -97,7 +113,7 @@ const login = () => {
               type={showpass ? "text" : "password"}
               placeholder="password"
               {...register("password", { minLength: 5, maxLength: 20 })}
-              className="w-5/6 mx-auto h-9 rounded-xl border-2 bg-gray-200 pl-5 focus:border-0"
+              className="w-4/6 mx-auto h-14 rounded-xl border-2 bg-opacity-0 bg-gray-200 pl-5 focus:border-0"
             />
           </div>
 
@@ -105,22 +121,14 @@ const login = () => {
             className="w-1/3 h-10 rounded-xl mx-auto bg-green-600 hover:scale-110 font-bold text-white text-center"
             onClick={handleSubmit(onSubmit)}
           >
+            <span>{response.isLoading && <Spin />}</span>
             Sign up
           </button>
         </form>
+        <ToastContainer />
       </div>
-      <Image
-        className="fixed w-screen bottom-0 left-0 right-0"
-        src={bg1}
-        alt="bg-1"
-      />
-      <Image
-        className="fixed bottom-0 w-screen left-0 right-0"
-        src={bg2}
-        alt="bg-2"
-      />
     </div>
   );
 };
 
-export default login;
+export default register;

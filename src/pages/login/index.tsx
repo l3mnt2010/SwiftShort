@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import logo from "../../assets/images/LogoSwiftShort.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import bg1 from "../../assets/images/image-bg1.png";
 import bg2 from "../../assets/images/image-bg2.png";
 import Link from "next/link";
@@ -12,12 +12,16 @@ import {
   EyeOutlined,
   GoogleOutlined,
 } from "@ant-design/icons";
-import Image from "next/image";
 import { Login, Login_new } from "@/interfaces/interface.global";
-import { useAppDispatch } from "@/redux/store";
+import { RootState, useAppDispatch } from "@/redux/store";
 import { Login_user } from "@/redux/login.slide";
+import { Toastcontainer } from "@/toastify/toastify";
+import { Spin } from "antd";
+import { ToastContainer } from "react-toastify";
 
 const login = () => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const isload_ding = useSelector((state: RootState) => state.login);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const dispatch = useAppDispatch();
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -27,22 +31,7 @@ const login = () => {
   console.log(remember);
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [showpass, setShowPass] = useState(false);
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [darkMode, setDarkMode] = useState(false);
 
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    const body = document.body;
-    if (darkMode) {
-      body.classList.add("dark");
-    } else {
-      body.classList.remove("dark");
-    }
-  }, [darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { register, handleSubmit, setValue } = useForm<Login>({
     defaultValues: {
@@ -53,35 +42,50 @@ const login = () => {
   const onSubmit: SubmitHandler<Login> = (data) => {
     console.log(data);
     dispatch(Login_user(data));
+  };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
     let token =
       typeof window !== "undefined"
         ? localStorage.getItem("access_token")
         : null;
-    if (token !== null) {
-      alert("Thành công !!!");
-      router.push("/");
+    if (
+      token !== null &&
+      isload_ding.isLoading == false &&
+      isload_ding.error == null
+    ) {
+      router.push("/work");
+      Toastcontainer("success", "đăng nhập !");
     }
-  };
+  }, [dispatch, onSubmit, isload_ding]);
   // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/rules-of-hooks
   const hadlerRemember = useCallback(() => {
     isRemember(!remember);
   }, [remember]);
 
   return (
-    <div className="w-screen h-screen fixed">
-      <div className=" w-full sm:w-1/2 mx-auto mt-40 sm:mt-20 ">
-        <h1 className="w-full font-bold text-center text-black text-4xl">
-          Log in and start changing your world
-        </h1>
-        <div className="w-full flex gap-5 justify-center items-center">
-          <p className="font-bold text-center my-5">Not have account ?</p>
-          <Link className="text-blue-600 underline w-20" href={"/register"}>
+    <div className="w-screen pt-32 sm:pt-0 sm:bg-none sm:flex h-screen bg_eye fixed">
+      <div className="w-full sm:h-screen sm:bg_eye">
+        <div className="h-full bg_eye flex justify-center items-center text-2xl sm:text-5xl text-white font-serif">
+          Well come back
+        </div>
+      </div>
+
+      <div className="w-full text-white sm:pt-32">
+        <div className="flex w-full justify-center gap-2">
+          <p className="font-bold text-white sm:text-2xl font-mono">
+            Not have account ?
+          </p>
+          <Link
+            className="text-blue-600 underline w-20 text-xl"
+            href={"/register"}
+          >
             Sign up
           </Link>
         </div>
 
         <div className="w-full">
-          <h1 className="w-full text-center font-thin">Log in with:</h1>
+          <h1 className="w-full text-center font-thin text-lg">Log in with:</h1>
           <div className="flex gap-5 justify-center items-center my-3">
             <button className="bg-blue-600 hover:bg-pink-400 transition-all rounded-xl w-32 flex justify-center items-center h-8">
               <GoogleOutlined className="hover:animate-spin" />
@@ -98,19 +102,19 @@ const login = () => {
         <form className="flex flex-col gap-5">
           <div className="flex flex-col gap-5">
             {" "}
-            <label className="w-5/6 mx-auto font-bold">
+            <label className="w-4/6 mx-auto font-bold">
               Email address or username
             </label>
             <input
               type="text"
-              className="w-5/6 mx-auto h-9 rounded-xl border-2 bg-gray-200 pl-5"
+              className="w-4/6 mx-auto h-14 rounded-xl border-2 bg-gray-200 bg-opacity-0 pl-5"
               placeholder="name@gmail.com"
               {...register("email", {})}
             />
             {}
           </div>
           <div className="flex flex-col gap-5">
-            <div className="w-5/6 mx-auto flex justify-between">
+            <div className="w-4/6 mx-auto flex justify-between">
               <label className="font-bold">Password</label>
               <div
                 onClick={() => setShowPass(!showpass)}
@@ -124,10 +128,10 @@ const login = () => {
               type={showpass ? "text" : "password"}
               placeholder="password"
               {...register("password", {})}
-              className="w-5/6 mx-auto h-9 rounded-xl border-2 bg-gray-200 pl-5 focus:border-0"
+              className="w-4/6 mx-auto h-14 rounded-xl border-2 bg-gray-200 bg-opacity-0 pl-5 focus:border-0"
             />
           </div>
-          <div className="w-5/6 mx-auto flex justify-between">
+          <div className="w-4/6 mx-auto flex justify-between">
             <div className="flex gap-2">
               <input type="checkbox" name="" id="" onClick={hadlerRemember} />
               <p className="font-serif text-sm">Remember me</p>
@@ -145,26 +149,14 @@ const login = () => {
             className="w-1/3 h-10 rounded-xl mx-auto bg-green-600 hover:scale-110 font-bold text-white text-center"
             onClick={handleSubmit(onSubmit)}
           >
+            <span>
+              {isload_ding.isLoading == true && <Spin className="text-white" />}
+            </span>
             Log in
           </button>
         </form>
+        <ToastContainer />
       </div>
-      <Image
-        className="fixed w-screen bottom-0 left-0 right-0"
-        src={bg1}
-        alt="bg-1"
-      />
-      <Image
-        className="fixed bottom-0 w-screen left-0 right-0"
-        src={bg2}
-        alt="bg-2"
-      />
-      <button
-        onClick={toggleDarkMode}
-        className="fixed left-10 bottom-10 w-16 h-16 rounded-full bg-pink-700 text-emerald-200"
-      >
-        Dark
-      </button>
     </div>
   );
 };
